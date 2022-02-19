@@ -19,6 +19,22 @@ func main() {
 		"   ",
 	}
 
+	blank := placeholder{
+		"   ",
+		"   ",
+		"   ",
+		"   ",
+		"   ",
+	}
+
+	sep := placeholder{
+		"   ",
+		"   ",
+		"███",
+		"   ",
+		"   ",
+	}
+
 	zero := placeholder{
 		"███",
 		"█ █",
@@ -100,7 +116,7 @@ func main() {
 	}
 
 	digits := [...]placeholder{
-		colon, zero, one, two, three, four, five, six, seven, eight, nine,
+		zero, one, two, three, four, five, six, seven, eight, nine,
 	}
 	count := 0
 
@@ -110,17 +126,36 @@ func main() {
 
 		screen.MoveTopLeft()
 		hours, minutes, seconds := time.Now().Clock()
+		month := time.Now().Month()
+		day := time.Now().Day()
 		time.Sleep(time.Second)
 
 		clock := [...]placeholder{
+			digits[month/10],
+			digits[month%10],
+			sep,
+			digits[day/10],
+			digits[day%10],
+			sep,
 			digits[hours/10],
 			digits[hours%10],
 			colon,
 			digits[minutes/10],
 			digits[minutes%10],
-			colon,
+			blank,
 			digits[seconds/10],
 			digits[seconds%10],
+		}
+		count++
+
+		if count%2 == 0 {
+			clock[8] = blank
+			clock[11] = blank
+		}
+		if count%2 == 1 {
+			clock[8] = colon
+			clock[11] = colon
+
 		}
 
 		// for each digit
